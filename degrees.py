@@ -92,34 +92,33 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # For keeping track of how many nodes have been explored
+    # melacak banyak node yang dieksplorasi
     num_explored = 0
 
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
     frontier.add(start)
 
-    # Set of explored actors
+    # aktor yang dieksplorasi
     explored = set()
 
     while True:
-        # If nothing left in frontier, then no path
+        # tidak ada yang tersisa di perbatasan, maka tidak ada jalan
         if frontier.empty():
             return None
 
         node = frontier.remove()
-        #print(f"Exploring {node.state}")
         num_explored += 1
 
-        # Mark actor (node) as explored
+        # Tandai aktor (node) yang dieksplorasi
         explored.add(node.state)
-        # Find the neighbors (actors to which he can connect) of the actor
+        # Temukan tetangga (aktor) yang dapat dihubungkan dari aktor
         neighbors = neighbors_for_person(node.state)
         for movie, actor in neighbors:
             if actor not in explored and  not frontier.contains_state(actor):
                 child = Node(state=actor, parent=node, action=movie)
                 if child.state == target:
-                    # Return list of tuples (movie_id, actor_id)
+                    # Kembalikan daftar tupel (id_film, id_aktor)
                     path = []
                     node = child
                     while node.parent is not None:
